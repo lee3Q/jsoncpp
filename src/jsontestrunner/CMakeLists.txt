@@ -48,6 +48,9 @@ if(PYTHONINTERP_FOUND)
         COMMAND "${PYTHON_EXECUTABLE}" -B "${RUNJSONTESTS_PATH}" --with-json-checker  $<TARGET_FILE:jsontestrunner_exe> "${TEST_DIR}/data"
         WORKING_DIRECTORY "${TEST_DIR}/data"
     )
+    add_test(NAME jsoncpp_jsontestrunner_unseekable
+        COMMAND "${PYTHON_EXECUTABLE}" -B "${TEST_DIR}/test_jsontestrunner_unseekable.py" $<TARGET_FILE:jsontestrunner_exe>
+    )
 
     # Both tests write .actual/.actual-rewrite along with test data, need to prevent collision when running tests via ctest -j
     set_tests_properties(jsoncpp_readerwriter jsoncpp_readerwriter_json_checker

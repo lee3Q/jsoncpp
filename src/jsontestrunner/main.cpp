@@ -56,10 +56,23 @@ static Json::String readInputTestFile(const char* path) {
   FILE* file = fopen(path, "rb");
   if (!file)
     return "";
-  fseek(file, 0, SEEK_END);
+  if (fseek(file, 0, SEEK_END) != 0) {
+    std::cerr << "Failed to seek input file: " << path << std::endl;
+    fclose(file);
+    return "";
+  }
   auto const size = ftell(file);
+  if (size < 0) {
+    std::cerr << "Failed to determine input file size: " << path << std::endl;
+    fclose(file);
+    return "";
+  }
   auto const usize = static_cast<size_t>(size);
-  fseek(file, 0, SEEK_SET);
+  if (fseek(file, 0, SEEK_SET) != 0) {
+    std::cerr << "Failed to rewind input file: " << path << std::endl;
+    fclose(file);
+    return "";
+  }
   auto buffer = new char[size + 1];
   buffer[size] = 0;
   Json::String text;

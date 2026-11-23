@@ -155,3 +155,11 @@ test(
     join_paths(meson.current_source_dir(), 'test/data')],
     workdir : join_paths(meson.current_source_dir(), 'test/data'),
   )
+test(
+  'jsoncpp_jsontestrunner_unseekable',
+  python,
+  args : [
+    '-B',
+    join_paths(meson.current_source_dir(), 'test/test_jsontestrunner_unseekable.py'),
+    jsontestrunner],
+  )
